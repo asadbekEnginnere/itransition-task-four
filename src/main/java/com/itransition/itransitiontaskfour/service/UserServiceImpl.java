@@ -88,11 +88,22 @@ public class UserServiceImpl implements UserService, UserDetailsService,
     }
 
     @Override
-    public Map<String, String> delete(Long id) {
+    public Map<String, String> delete(Long id,HttpServletRequest request) {
         Map<String,String> messages = new HashMap<>();
         try {
             if (userRepo.existsById(id)) {
+                User user = userRepo.findById(id).get();
                 userRepo.deleteById(id);
+                Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                String username = ((UserDetails)principal).getUsername();
+
+                if(user.getEmail().equals(username)) {
+                    HttpSession session = request.getSession(false);
+                    SecurityContextHolder.clearContext();
+                    if (session != null) {
+                        session.invalidate();
+                    }
+                }
                 messages.put("success", "Successfully deleted");
                 return messages;
             }

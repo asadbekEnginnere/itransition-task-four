@@ -51,8 +51,8 @@ public class UserController {
     }
 
     @PostMapping("/{id}")
-    public String deleteUser(@PathVariable Long id,RedirectAttributes ra){
-        Map<String,String> messages = userService.delete(id);
+    public String deleteUser(@PathVariable Long id,RedirectAttributes ra,HttpServletRequest request){
+        Map<String,String> messages = userService.delete(id,request);
         return getMapData(ra, messages);
     }
 

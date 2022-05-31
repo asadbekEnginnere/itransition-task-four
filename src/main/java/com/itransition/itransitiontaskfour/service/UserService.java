@@ -13,7 +13,7 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    Map<String, String> delete(Long id);
+    Map<String, String> delete(Long id,HttpServletRequest request);
 
     Map<String,String> blockUser(Long id, HttpServletRequest request);
 
