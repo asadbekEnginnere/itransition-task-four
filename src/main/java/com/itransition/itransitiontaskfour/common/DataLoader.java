@@ -37,45 +37,42 @@ public class DataLoader implements CommandLineRunner {
         if (initMode.equals("always")) {
 
             Role user_role = new Role( "ROLE_USER");
+            if (roleRepo.findByName("ROLE_USER")!=null){
 
-            Role saveUser = roleRepo.save(user_role);
+            }else {
+                Role saveUser = roleRepo.save(user_role);
+            }
 
-            Set<Role> userRole = new HashSet<>();
-            userRole.add(saveUser);
-
-            User user1 = new User("Asadbek",
-                    "Создайте бизнес-план!\n" +
-                            "Создайте бизнес-план. Объясните  подробно. \n" +
-                            "\n" +
-                            "Критерии:\n" +
-                            "1. Создайте бизнес-план!\n" +
-                            "2. Самая лучшая идея!\n" +
-                            "3. Создайте логотип, соответствующий вашей идее",
-                    LocalDateTime.now(),
-                    LocalDateTime.now(),
-                    false,
-                    passwordEncoder.encode("1111"),
-                    userRole);
-
-            User user2 = new User("Eldor",
-                    "ch.eldor1999@gmail.com",
-                    LocalDateTime.now(),
-                    LocalDateTime.now(),
-                    false,
-                    passwordEncoder.encode("2222"),
-                    userRole);
-
-            User user3 = new User("Saidbek",
-                    "saidbek.1997@gmail.com",
-                    LocalDateTime.now(),
-                    LocalDateTime.now(),
-                    false,
-                    passwordEncoder.encode("3333"),
-                    userRole);
-
-            userRepo.save(user1);
-            userRepo.save(user2);
-            userRepo.save(user3);
+//            Set<Role> userRole = new HashSet<>();
+//            userRole.add(saveUser);
+//
+//            User user1 = new User("Asadbek",
+//                    "asatbekxalimjonov2000@gmail.com",
+//                    LocalDateTime.now(),
+//                    LocalDateTime.now(),
+//                    false,
+//                    passwordEncoder.encode("1111"),
+//                    userRole);
+//
+//            User user2 = new User("Eldor",
+//                    "ch.eldor1999@gmail.com",
+//                    LocalDateTime.now(),
+//                    LocalDateTime.now(),
+//                    false,
+//                    passwordEncoder.encode("2222"),
+//                    userRole);
+//
+//            User user3 = new User("Saidbek",
+//                    "saidbek.1997@gmail.com",
+//                    LocalDateTime.now(),
+//                    LocalDateTime.now(),
+//                    false,
+//                    passwordEncoder.encode("3333"),
+//                    userRole);
+//
+//            userRepo.save(user1);
+//            userRepo.save(user2);
+//            userRepo.save(user3);
 
         }
     }
