@@ -31,20 +31,20 @@
                 <form th:action="@{/register}" th:object="${user}" method="post">
                 <div class="row align-items-center">
                     <div class="col mt-4">
-                        <input type="text" class="form-control" th:field="*{name}" placeholder="Name">
+                        <input type="text" class="form-control" th:field="*{name}" placeholder="Name" required>
                     </div>
                 </div>
                 <div class="row align-items-center mt-4">
                     <div class="col">
-                        <input type="email" th:field="*{email}" class="form-control" placeholder="Email">
+                        <input type="email" th:field="*{email}" class="form-control" placeholder="Email" required>
                     </div>
                 </div>
                 <div class="row align-items-center mt-4">
                     <div class="col">
-                        <input type="password" th:field="*{password}" class="form-control" placeholder="Password">
+                        <input type="password" th:field="*{password}" class="form-control" placeholder="Password" required>
                     </div>
                     <div class="col">
-                        <input type="password"  class="form-control" placeholder="Confirm Password">
+                        <input type="password"  class="form-control" placeholder="Confirm Password" required>
                     </div>
                 </div>
                 <div class="row justify-content-start mt-4">
