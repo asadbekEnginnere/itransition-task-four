@@ -79,4 +79,9 @@ public class UserController {
         return getMapData(ra, messages);
     }
 
+    @GetMapping("/login")
+    public String loginPage(){
+        return "login";
+    }
+
 }
