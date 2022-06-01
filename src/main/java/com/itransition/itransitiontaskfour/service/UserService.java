@@ -18,4 +18,10 @@ public interface UserService {
     Map<String,String> blockUser(Long id, HttpServletRequest request);
 
     Map<String, String> unBlockUser(Long id);
+
+    Map<String, String> deleteAll(List<Long> users,HttpServletRequest request);
+
+    void blockAll(List<Long> usersId, HttpServletRequest request);
+
+    void unBlockAll(List<Long> usersId, HttpServletRequest request);
 }

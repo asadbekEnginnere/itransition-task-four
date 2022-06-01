@@ -37,6 +37,19 @@
             [[${message}]]
         </div>
         </div>
+        <div class="row">
+            <div class="col-md-5">
+                <div class="btn-group">
+                    <button onclick="deleteAll()" class="btn btn-outline-danger btn-rounded btn-sm" ><i class="fa fa-trash"></i> Delete</button>
+                </div>
+                <div class="btn-group">
+                    <button onclick="unBlockAll()" class="btn btn-success btn-rounded btn-sm" ><i class="fa fa-unlock"></i> UnBlock</button>
+                </div>
+                <div class="btn-group">
+                    <button onclick="blockAll()" class="btn btn-danger btn-rounded btn-sm" ><i class="fa fa-ban"></i> Block</button>
+                </div>
+            </div>
+        </div>
         <br>
         <table class="table table-bordered table-hover">
             <thead class="thead-dark" style="text-align: center">
@@ -44,7 +57,7 @@
                 <th scope="col">#</th>
                 <th scope="col">
                     <div class="form-check" style="margin-top: -1.7em">
-                        <input class="form-check-input" type="checkbox" onclick="checkAll(this)">
+                        <input id="myCheck" class="form-check-input" type="checkbox" onclick="checkAll(this)">
                     </div>
                 </th>
                 <th scope="col">Name</th>
@@ -102,13 +115,79 @@
 
 <script>
 
+    var users= [];
+
+    function deleteAll(){
+        console.log(users);
+        fetch('/api/delete-all', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(users)
+        }).then(response => {
+           console.log(response);
+           window.location.reload();
+
+        });
+    }
+
+    function blockAll(){
+        console.log(users);
+        fetch('/api/block-all', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(users)
+        }).then(response => {
+            console.log(response);
+            window.location.reload();
+
+        });
+    }
+
+    function unBlockAll(){
+        console.log(users);
+        fetch('/api/unblock-all', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(users)
+        }).then(response => {
+            console.log(response);
+            window.location.reload();
+
+        });
+    }
+
     function checkAll(bx) {
         var cbs = document.getElementsByTagName('input');
+        var checkedValue = null;
+
+
         for(var i=0; i < cbs.length; i++) {
             if(cbs[i].type == 'checkbox') {
                 cbs[i].checked = bx.checked;
+                if(cbs[i].checked && i!==0){
+                    checkedValue = cbs[i].value;
+                    console.log(checkedValue);
+                    users.push(checkedValue);
+                }
             }
         }
+
+        console.log("User id");
+
+        for(var i=0; i < users.length; i++) {
+            console.log(users[i]);
+        }
+
+        console.log(cbs);
     }
 </script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>

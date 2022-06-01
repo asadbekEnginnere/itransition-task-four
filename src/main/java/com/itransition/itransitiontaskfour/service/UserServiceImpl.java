@@ -160,6 +160,88 @@ public class UserServiceImpl implements UserService, UserDetailsService,
         return messages;
     }
 
+    @Override
+    public Map<String, String> deleteAll(List<Long> users,HttpServletRequest request) {
+        Map<String,String> messages = new HashMap<>();
+        try {
+            boolean isFound=false;
+            for (Long id : users) {
+                if (userRepo.existsById(id)) {
+                    User user = userRepo.findById(id).get();
+                    userRepo.deleteById(id);
+                    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                    String username = ((UserDetails) principal).getUsername();
+
+                    if (user.getEmail().equals(username)) {
+                        isFound=true;
+                    }
+                }
+            }
+            messages.put("success", "Successfully deleted");
+
+            if (isFound){
+                HttpSession session = request.getSession(false);
+                SecurityContextHolder.clearContext();
+                if (session != null) {
+                    session.invalidate();
+                }
+            }
+
+            return messages;
+        }catch (Exception ignored){}
+        messages.put("error","Deleting error");
+        return messages;
+    }
+
+    @Override
+    public void blockAll(List<Long> usersId, HttpServletRequest request) {
+        boolean isFound=false;
+        try {
+            for (Long id : usersId) {
+                if (userRepo.findById(id).isPresent()) {
+                    User user = userRepo.findById(id).get();
+                    if (!user.isBlocked()) {
+                        user.setBlocked(true);
+                        userRepo.save(user);
+                        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                        String username = ((UserDetails)principal).getUsername();
+
+                        if(user.getEmail().equals(username)) {
+                            isFound=true;
+                        }
+
+                    }
+                }
+            }
+        }catch (Exception ignored){}
+
+        if(isFound){
+            HttpSession session = request.getSession(false);
+            SecurityContextHolder.clearContext();
+            if (session != null) {
+                session.invalidate();
+            }
+        }
+
+    }
+
+    @Override
+    public void unBlockAll(List<Long> usersId, HttpServletRequest request) {
+        try {
+            for (Long id : usersId) {
+                if (userRepo.findById(id).isPresent()) {
+
+                    User user = userRepo.findById(id).get();
+                    if (user.isBlocked()) {
+                        user.setBlocked(false);
+                        userRepo.save(user);
+
+                    }
+                }
+            }
+        }catch (Exception ignored){}
+    }
+
     public PasswordEncoder getEncoder() {
         return new BCryptPasswordEncoder();
     }
